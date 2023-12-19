@@ -31,8 +31,12 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[0],
+      body: pages[currentIndex],
+      backgroundColor: Colors.white,
       bottomNavigationBar: BottomNavigationBar(
+        unselectedFontSize: 0,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
         onTap: onTab,
         selectedItemColor: Colors.black54,
         unselectedItemColor: Colors.grey.withOpacity(0.5),
@@ -42,8 +46,7 @@ class _MainPageState extends State<MainPage> {
         currentIndex: currentIndex,
         items: const [
           BottomNavigationBarItem(label: "Домой", icon: Icon(Icons.apps)),
-          BottomNavigationBarItem(
-              label: "Пaнель", icon: Icon(Icons.bar_chart_sharp)),
+          BottomNavigationBarItem(label: "Пaнель", icon: Icon(Icons.bar_chart_sharp)),
           BottomNavigationBarItem(label: "Поиск", icon: Icon(Icons.search)),
           BottomNavigationBarItem(label: ("Я"), icon: Icon(Icons.person)),
         ],
