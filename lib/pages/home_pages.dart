@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cubit/misc/colors.dart';
 import 'package:flutter_cubit/widgets/app_large_text.dart';
 
+import '../widgets/app_text.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -10,9 +12,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  var images = {
+    "balloning.png": "Воздух",
+    "hiking.png": "Пеший туризм",
+    "kayaking.png": "Каякинг",
+    "snorkling.png": "Плавание",
+  };
+
+  final List<Tab> _myTabs = <Tab>[
+    Tab(text: "Места"),
+    Tab(text: "Вдохновение"),
+    Tab(text: "Эмоции"),
+  ];
+
+
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: 3, vsync: this);
+    TabController _tabController = TabController(length: _myTabs.length, vsync: this);
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,7 +55,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ],
             ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 20),
           //раскрытие
           Container(
             margin: const EdgeInsets.only(left: 20),
@@ -70,6 +86,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ),
           ),
           const SizedBox(height: 20),
+          //слайдер
           Container(
             padding: const EdgeInsets.only(left: 20),
             height: 300,
@@ -78,25 +95,116 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               controller: _tabController,
               children: [
                 ListView.builder(
-                  itemCount:3,
+                  itemCount: 3,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       margin: const EdgeInsets.only(right: 15),
                       width: 200,
-                      height: 300,
+                      height: 200,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.white,
                         image: const DecorationImage(
-                            image: AssetImage("img/mountain.jpeg"),
+                            image: AssetImage("img/list_4.png"),
                             fit: BoxFit.cover),
                       ),
                     );
                   },
+                ),
+                ListView.builder(
+                  itemCount: 3,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      margin: const EdgeInsets.only(right: 15),
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                        image: const DecorationImage(
+                            image: AssetImage("img/list_3.png"),
+                            fit: BoxFit.cover),
+                      ),
+                    );
+                  },
+                ),
+                ListView.builder(
+                  itemCount: 3,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      margin: const EdgeInsets.only(right: 15),
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                        image: const DecorationImage(
+                            image: AssetImage("img/list_2.png"),
+                            fit: BoxFit.cover),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 35),
+          //информативность { mainAxisAlignment: MainAxisAlignment.spaceBetween, }
+          Container(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppLargeText(text: "Изучить больше", size: 22),
+                AppText(
+                  text: "Смотреть больше",
+                  size: 11,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.textColor1,
                 )
               ],
             ),
+          ),
+          const SizedBox(height: 25),
+          Container(
+            width: double.maxFinite,
+            height: 100,
+            margin: const EdgeInsets.only(left: 20, right: 20),
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 4,
+                itemBuilder: (_, index) {
+                  return Container(
+                    margin: const EdgeInsets.only(right: 18),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 70,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                            image: DecorationImage(
+                                image: AssetImage("img/"+images.keys.elementAt(index)),
+                                fit: BoxFit.cover),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          child: AppText(
+                              text: images.values.elementAt(index),
+                              color: AppColors.textColor2,
+                              fontWeight: FontWeight.w400
+                          ),
+
+                        )
+                      ],
+                    ),
+                  );
+                }),
           )
         ],
       ),
