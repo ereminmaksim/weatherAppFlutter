@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_cubit/model/data_model.dart';
 import 'package:flutter_cubit/services/data_services.dart';
 
 import 'app_cubit_states.dart';
@@ -19,5 +20,14 @@ class AppCubits extends Cubit<CubitStates> {
     } catch (e) {
       print(e);
     }
+  }
+
+  detailPage(DataModel data) {
+    emit(DetailState(data));
+
+  }
+
+  goHome() {
+    emit(LoadedState(places));
   }
 }
