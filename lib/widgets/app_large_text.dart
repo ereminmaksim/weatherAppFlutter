@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 
 class AppLargeText extends StatelessWidget {
   double size;
-  final String text;
+  final Object text;
   final Color color;
 
-  AppLargeText({Key? key,
-    this.size = 30,
+  AppLargeText({
+    Key? key,
+    this.size = 30.0,
     required this.text,
-    this.color = Colors.black})
-    : super(key: key);
+    this.color = Colors.black,
+    }) : assert(text is String || text is int), // Assert to ensure text is String or int
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      text,
+      text.toString(),
       style: TextStyle(
         color: color,
         fontSize: size,

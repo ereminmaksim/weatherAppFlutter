@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppText extends StatelessWidget {
   double size;
-  final String text;
+  final Object text;
   final Color color;
   final FontWeight fontWeight;
 
@@ -11,12 +11,13 @@ class AppText extends StatelessWidget {
     required this.text,
     required this.fontWeight,
     this.color = Colors.black54
-  }): super(key: key);
+  }): assert(text is String || text is int), // Assert to ensure text is String or int
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      text,
+      text.toString(),
       style: TextStyle(
           color: color,
           fontSize: size,

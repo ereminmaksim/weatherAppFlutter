@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cubit/cubit/app_cubit_states.dart';
+import 'package:flutter_cubit/cubit/app_cubits.dart';
 import 'package:flutter_cubit/misc/colors.dart';
 import 'package:flutter_cubit/widgets/app_large_text.dart';
 
@@ -25,14 +28,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     Tab(text: "Эмоции"),
   ];
 
-
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: _myTabs.length, vsync: this);
+    TabController _tabController =
+        TabController(length: _myTabs.length, vsync: this);
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        body: BlocBuilder<AppCubits, CubitStates>(builder: (context, state) {
+      if (state is LoadedState) {
+        var info = state.places;
+        return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           //верхнее меню
           Container(
             padding: const EdgeInsets.only(top: 60, left: 20),
@@ -95,20 +99,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               controller: _tabController,
               children: [
                 ListView.builder(
-                  itemCount: 3,
+                  itemCount: info.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      margin: const EdgeInsets.only(right: 15),
-                      width: 200,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
-                        image: const DecorationImage(
-                            image: AssetImage("img/list_4.png"),
-                            fit: BoxFit.cover),
-                      ),
+                    return GestureDetector(
+                      onTap: (){
+                       BlocProvider.of<AppCubits>(context).detailPage(info[index]);
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 15),
+                        width: 200,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white,
+                          image: DecorationImage(
+                              image: NetworkImage("http://mark.bslmeiyu.com/uploads/"+info[index].img),
+                              fit: BoxFit.cover),
+                        ),
+                      )
                     );
                   },
                 ),
@@ -188,7 +197,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             borderRadius: BorderRadius.circular(20),
                             color: Colors.white,
                             image: DecorationImage(
-                                image: AssetImage("img/"+images.keys.elementAt(index)),
+                                image: AssetImage(
+                                    "img/" + images.keys.elementAt(index)),
                                 fit: BoxFit.cover),
                           ),
                         ),
@@ -197,18 +207,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           child: AppText(
                               text: images.values.elementAt(index),
                               color: AppColors.textColor2,
-                              fontWeight: FontWeight.w400
-                          ),
-
+                              fontWeight: FontWeight.w400),
                         )
                       ],
                     ),
                   );
                 }),
           )
-        ],
-      ),
-    );
+        ]);
+      } else {
+        return Container();
+      }
+    }));
   }
 }
 
